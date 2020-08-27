@@ -6,7 +6,7 @@
 
 using namespace std;
 
-void topMerge(int*, int*, int, int = 0, int = 0);
+void topMerge(int*, int*, int, int = 0);
 void combine(int*, int*, int*, int, int); 
 
 void usage();
@@ -51,7 +51,7 @@ int main(int argc, const char** argv) {
   printArray(output, inputSize);
 }
 
-void topMerge(int* input, int* output, int inputSize, int outputSize, int index) {
+void topMerge(int* input, int* output, int inputSize, int outputSize) {
   if (inputSize == 1) {
     #ifdef trace
       cout << "\ntopMerge (base case) " << endl;
@@ -75,12 +75,10 @@ void topMerge(int* input, int* output, int inputSize, int outputSize, int index)
 
     cout << "output ";
     printArray(output, outputSize);
-
-    cout << "index " << index << endl;
   #endif
 
-  topMerge(input, output, middle, outputSize, index);
-  topMerge(input + middle, output, inputSize - middle, index); 
+  topMerge(input, output, middle, outputSize);
+  topMerge(input + middle, output, inputSize - middle); 
 
   combine(input, input + middle, output, middle, inputSize - middle);
 }
