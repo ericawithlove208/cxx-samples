@@ -46,24 +46,24 @@ template <class T> class Node {
       return 0;
     }
 
-    Node* getParent() const {
+    Node<T>* getParent() const {
       return parent;
     }
-    void setParent(const Node* val) {
+    void setParent(const Node<T>* val) {
       parent = val;
     }
 
-    Node* getLeft() const {
+    Node<T>* getLeft() const {
       return left;
     }
-    void setLeft(const Node* val) {
+    void setLeft(const Node<T>* val) {
       left = val;
     }
 
-    Node* getRight() const {
+    Node<T>* getRight() const {
       return right;
     }
-    void setright(const Node* val) {
+    void setright(const Node<T>* val) {
       right = val;
     }
 
@@ -82,9 +82,9 @@ template <class T> class Node {
     }
 
   private:
-    Node* parent;
-    Node* left;
-    Node* right;
+    Node<T>* parent;
+    Node<T>* left;
+    Node<T>* right;
 
     T key;
     char bal;
