@@ -6,50 +6,13 @@
 
 using namespace std;
 
+namespace ericawithlove208 { namespace cxxSamples { namespace sort {
+
 void topMerge(int*, int*, int, int = 0);
 void combine(int*, int*, int*, int, int); 
 
 void usage();
 void printArray(int*, int);
-
-int main(int argc, const char** argv) {
-  if (argc < 2) {
-    usage();
-    return 0;
-  }
-
-  int inputSize = argc - 1;
-  int* input = new int[inputSize];
-
-  for (int x = 1; x < argc; x++) {
-    const char* str = argv[x];
-
-    try {
-      int num = stoi(str);
-      input[x - 1] = num;
-
-    } catch (exception e) {
-      cout << "could not parse int: " << str << endl;
-      return -1;
-    }
-  }
-
-  int* org = new int[inputSize];
-
-  for (int x = 0; x < inputSize; x++) {
-    org[x] = input[x];
-  }
-
-  int* output = new int[inputSize]();
-
-  topMerge(input, output, inputSize);
-
-  cout << "\ninput ";
-  printArray(org, inputSize);
-
-  cout << "sorted ";
-  printArray(output, inputSize);
-}
 
 void topMerge(int* input, int* output, int inputSize, int outputSize) {
   if (inputSize == 1) {
@@ -133,4 +96,47 @@ void printArray(int* array, int size) {
 
 void usage() {
   cout << "mergesort 1 2 3 4 5 6 7 8 9 10" << endl;
+}
+
+} } }
+
+using namespace ericawithlove208::cxxSamples::sort;
+
+int main(int argc, const char** argv) {
+  if (argc < 2) {
+    usage();
+    return 0;
+  }
+
+  int inputSize = argc - 1;
+  int* input = new int[inputSize];
+
+  for (int x = 1; x < argc; x++) {
+    const char* str = argv[x];
+
+    try {
+      int num = stoi(str);
+      input[x - 1] = num;
+
+    } catch (exception e) {
+      cout << "could not parse int: " << str << endl;
+      return -1;
+    }
+  }
+
+  int* org = new int[inputSize];
+
+  for (int x = 0; x < inputSize; x++) {
+    org[x] = input[x];
+  }
+
+  int* output = new int[inputSize]();
+
+  topMerge(input, output, inputSize);
+
+  cout << "\ninput ";
+  printArray(org, inputSize);
+
+  cout << "sorted ";
+  printArray(output, inputSize);
 }
