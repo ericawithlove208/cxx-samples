@@ -6,12 +6,12 @@ namespace ericawithlove208 { namespace cxxSamples { namespace balancedTree {
 
 template <class T> class Node {
   public:
-    Node(const Node* parent, const T key) { 
-      this.parent = parent;
+    Node(Node* parent, const T key) { 
+      this->parent = parent;
       left = NULL;
       right = NULL;      
 
-      this.key = key;
+      this->key = key;
       bal = 0;
     }
 
@@ -56,14 +56,14 @@ template <class T> class Node {
     Node<T>* getLeft() const {
       return left;
     }
-    void setLeft(const Node<T>* val) {
+    void setLeft(Node<T>* val) {
       left = val;
     }
 
     Node<T>* getRight() const {
       return right;
     }
-    void setright(const Node<T>* val) {
+    void setRight(Node<T>* val) {
       right = val;
     }
 
