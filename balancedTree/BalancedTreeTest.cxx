@@ -20,9 +20,13 @@ int main(int argc, const char** argv) {
   const char* keyFileName = argv[1];
   BalancedTree<int> btree;
 
+  cout << "Reading keys" << endl;
   readFile(keyFileName, btree);
+  cout << "Done reading file" << endl;
 
+  cout << "Printing tree" << endl;
   btree.print();
+  cout << "Done printing tree" << endl;
 }
 
 void readFile(const char* keyFileName, BalancedTree<int>& btree) {

@@ -2,8 +2,6 @@
 #include <string>
 #include <exception>
 
-#define trace true
-
 using namespace std;
 
 namespace ericawithlove208 { namespace cxxSamples { namespace sort {

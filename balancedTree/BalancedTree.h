@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <exception>
 
 #include "Node.h"
@@ -21,13 +22,21 @@ template <typename T> class BalancedTree {
           throw exception(/*"BalancedTree::insert invalid tree"*/);
         }
 
-        root == new Node<T>(NULL /* parent */, key);
+        #ifdef trace
+          cout << "BalancedTree::insert adding root key " << key << endl;
+        #endif
+
+        root = new Node<T>(NULL /* parent */, key);
         return true;
       }
 
       if (node->getKey() == key) {
         return false;
       }
+
+      #ifdef trace
+        cout << "BalancedTree::insert adding key " << key << endl;
+      #endif
 
       Node<T>* newNode = new Node<T>(node, key);
       if (key < node->getKey()) {
@@ -56,7 +65,9 @@ template <typename T> class BalancedTree {
       return _size;
     }
 
-    void print() const { }
+    void print() const {
+      print(root);
+    }
 
   protected:
     Node<T>* find(const T key) {
@@ -83,6 +94,22 @@ template <typename T> class BalancedTree {
         return cur;
       }
       return walk(cur->getRight(), key);
+    }
+
+    void print(const Node<T>* node) const {
+      if (node == NULL) {
+        return;
+      }
+
+      if (node->getLeft() != NULL) {
+        print(node->getLeft());
+      }
+
+      cout << node->getKey() << endl;
+
+      if (node->getRight() != NULL) {
+        print(node->getRight());
+      }
     }
 
   private:
