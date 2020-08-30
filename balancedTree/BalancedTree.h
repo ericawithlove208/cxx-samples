@@ -4,12 +4,15 @@
 #include <exception>
 
 #include "Node.h"
+#include "Comparator.h"
 
 namespace ericawithlove208 { namespace cxxSamples { namespace balancedTree {
 
 template <typename T> class BalancedTree {
   public:
-    BalancedTree() {
+    BalancedTree(const Comparator<T>& cmp) {
+      this->cmp = cmp;
+
       root = NULL;
       _size = 0;
      }
@@ -30,7 +33,7 @@ template <typename T> class BalancedTree {
         return true;
       }
 
-      if (node->getKey() == key) {
+      if (cmp.compare(node->getKey(), key) == 0) {
         return false;
       }
 
@@ -39,7 +42,7 @@ template <typename T> class BalancedTree {
       #endif
 
       Node<T>* newNode = new Node<T>(node, key);
-      if (key < node->getKey()) {
+      if (cmp.compare(key, node->getKey()) < 0) {
         node->setLeft(newNode);
         return true;
       }
@@ -79,11 +82,11 @@ template <typename T> class BalancedTree {
         return cur;
       }
 
-      if (cur->getKey() == key) {
+      if (cmp.compare(cur->getKey(), key) == 0) {
         return cur;
       }
 
-      if (key < cur->getKey()) {
+      if (cmp.compare(key, cur->getKey()) < 0) {
         if (cur->getLeft() == NULL) {
           return cur;
         }
@@ -113,6 +116,8 @@ template <typename T> class BalancedTree {
     }
 
   private:
+    Comparator<T> cmp;
+
     Node<T>* root;
     int _size;
 };

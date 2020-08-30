@@ -3,6 +3,7 @@
 #include <exception>
 
 #include "Node.h"
+#include "Comparator.h"
 #include "BalancedTree.h"
 
 using namespace std;
@@ -18,7 +19,9 @@ int main(int argc, const char** argv) {
   }
 
   const char* keyFileName = argv[1];
-  BalancedTree<int> btree;
+
+  Comparator<int> cmp;
+  BalancedTree<int> btree(cmp);
 
   cout << "Reading keys" << endl;
   readFile(keyFileName, btree);
