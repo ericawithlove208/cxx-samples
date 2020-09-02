@@ -4,5 +4,5 @@ project(cxx-samples)
 
 add_definitions(-DTRACE)
 
-add_executable(mergeSort sort/mergeSort.cxx)
-add_executable(BalancedTreeTest balancedTree/BalancedTreeTest.cxx)
+add_subdirectory(sort)
+add_subdirectory(balancedTree)
