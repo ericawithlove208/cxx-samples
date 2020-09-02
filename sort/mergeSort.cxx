@@ -14,7 +14,7 @@ void printArray(int*, int);
 
 void topMerge(int* input, int* output, int inputSize, int outputSize) {
   if (inputSize == 1) {
-    #ifdef trace
+    #ifdef TRACE
       cout << "\ntopMerge (base case) " << endl;
       printArray(input, inputSize);
     #endif
@@ -24,7 +24,7 @@ void topMerge(int* input, int* output, int inputSize, int outputSize) {
 
   int middle = inputSize / 2;
 
-  #ifdef trace
+  #ifdef TRACE
     cout << "\ntopMerge" << endl;
     cout << "input left ";
     printArray(input, middle);

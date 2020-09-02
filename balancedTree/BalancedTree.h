@@ -18,26 +18,32 @@ template <typename T> class BalancedTree {
      }
 
     const bool insert(const T key) {
-      Node<T>* node = find(key);
+      if (containsKey(key) == true) {
+        return false;
+      }
+
+      Node<T>* node = find(key, true /* update */);
 
       if (node == NULL) {
         if (root != NULL) {
           throw exception(/*"BalancedTree::insert invalid tree"*/);
         }
 
-        #ifdef trace
+        #ifdef TRACE
           cout << "BalancedTree::insert adding root key " << key << endl;
         #endif
 
         root = new Node<T>(NULL /* parent */, key);
+        root->setBalance(0);
+
         return true;
       }
 
       if (cmp.compare(node->getKey(), key) == 0) {
-        return false;
+        throw exception(/*"BalancedTree::insert concurrency"*/);
       }
 
-      #ifdef trace
+      #ifdef TRACE
         cout << "BalancedTree::insert adding key " << key << endl;
       #endif
 
@@ -52,7 +58,7 @@ template <typename T> class BalancedTree {
     }
 
     const bool containsKey(const T key) {
-      Node<T>* node = find(key);
+      Node<T>* node = find(key, false /* update */);
       if ((node != NULL) && (node->getKey() == key)) {
         return true;
       }
@@ -68,16 +74,30 @@ template <typename T> class BalancedTree {
       return _size;
     }
 
-    void print() const {
-      print(root);
+    void printOrdered() const {
+      printOrdered(root);
+    }
+
+    void printTopDown() const {
+      if (root == NULL) {
+        return;
+      }
+
+      int max = (root->getLeftHeight() >= root->getRightHeight()) ? 
+        root->getLeftHeight() : root->getRightHeight();
+
+      for(int x = 0; x < max; x++) {
+        cout << "Depth " << x << " ";
+        printDepth(root, x);
+      }
     }
 
   protected:
-    Node<T>* find(const T key) {
-      return walk(root, key);
+    Node<T>* find(const T key, bool update) {
+      return walk(root, key, update);
     }
 
-    Node<T>* walk(Node<T>* cur, const T key) {
+    Node<T>* walk(Node<T>* cur, const T key, bool update) {
       if (cur == NULL) {
         return cur;
       }
@@ -87,32 +107,70 @@ template <typename T> class BalancedTree {
       }
 
       if (cmp.compare(key, cur->getKey()) < 0) {
+        if (update == true) {
+          #ifdef TRACE
+            cur->setLeftHeight(cur->getLeftHeight() + 1);
+            cur->setBalance(cur->getLeftHeight() - cur->getRightHeight());
+          #else
+            cur->setBalance(cur->getBalance() - 1);
+          #endif
+        }
+
         if (cur->getLeft() == NULL) {
           return cur;
         }
-        return walk(cur->getLeft(), key);
+        return walk(cur->getLeft(), key, update);
+      }
+
+      if (update == true) {
+        #ifdef TRACE
+          cur->setRightHeight(cur->getRightHeight() + 1);
+          cur->setBalance(cur->getLeftHeight() - cur->getRightHeight());
+        #else
+          cur->setBalance(cur->getBalance() + 1);
+        #endif
       }
 
       if (cur->getRight() == NULL) {
         return cur;
       }
-      return walk(cur->getRight(), key);
+      return walk(cur->getRight(), key, update);
     }
 
-    void print(const Node<T>* node) const {
+    void printOrdered(const Node<T>* node) const {
       if (node == NULL) {
         return;
       }
 
       if (node->getLeft() != NULL) {
-        print(node->getLeft());
+        printOrdered(node->getLeft());
       }
 
       cout << node->getKey() << endl;
 
       if (node->getRight() != NULL) {
-        print(node->getRight());
+        printOrdered(node->getRight());
       }
+    }
+
+    void printDepth(Node<T>* node, int depth) const {
+      if (node == NULL) {
+        return;
+      }
+
+      if (depth == 0) {
+        #ifdef TRACE
+          cout << "Key " << node->getKey() << " Bal " << ((int)node->getBalance())
+               << " LH " << node->getLeftHeight() << " RH " << node->getRightHeight() << endl;
+        #else
+          cout << "Key " << node->getKey() << " Bal " << node->getBalance() << endl;
+        #endif
+
+        return;
+      }
+
+      printDepth(node->getLeft(), depth - 1);
+      printDepth(node->getRight(), depth - 1);
     }
 
   private:

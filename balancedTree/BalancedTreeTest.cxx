@@ -27,9 +27,13 @@ int main(int argc, const char** argv) {
   readFile(keyFileName, btree);
   cout << "Done reading file" << endl;
 
-  cout << "Printing tree" << endl;
-  btree.print();
-  cout << "Done printing tree" << endl;
+  cout << "Printing tree ordered" << endl;
+  btree.printOrdered();
+  cout << "Done printing tree ordered" << endl;
+
+  cout << "\nPrinting tree top down" << endl;
+  btree.printTopDown();
+  cout << "Done printing top down" << endl;
 }
 
 void readFile(const char* keyFileName, BalancedTree<int>& btree) {

@@ -13,6 +13,11 @@ template <class T> class Node {
 
       this->key = key;
       bal = 0;
+
+      #ifdef TRACE
+        lh = 0;
+        rh = 0;
+      #endif
     }
 
     bool operator<(const Node<T>& val) const {
@@ -74,12 +79,30 @@ template <class T> class Node {
       key = val;
     }
 
-    const char getBal() const {
+    const char getBalance() const {
       return bal;
     }
-    void setBal(const char val) {
+    void setBalance(const char val) {
       bal = val;
     }
+
+    #ifdef TRACE
+      const int getLeftHeight() const {
+        return lh;
+      }
+
+      void setLeftHeight(const int val) {
+        lh = val;
+      }
+
+      const int getRightHeight() const {
+        return rh;
+      }
+
+      void setRightHeight(const int val) {
+        rh = val;
+      }
+    #endif
 
   private:
     Node<T>* parent;
@@ -88,6 +111,11 @@ template <class T> class Node {
 
     T key;
     char bal;
+
+    #ifdef TRACE
+      int lh;
+      int rh;
+    #endif
 };
 
 } } }
